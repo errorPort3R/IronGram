@@ -16,7 +16,8 @@ function getPhotos()
 }
 
 function login() {
-    var data = {
+    var data =
+    {
         "name": $("#username").val(),
         "password": $("#password").val()
     };

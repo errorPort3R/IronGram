@@ -1,5 +1,6 @@
 package com.ironyard.controllers;
 
+import com.ironyard.entities.Photo;
 import com.ironyard.entities.User;
 import com.ironyard.services.PhotoRepository;
 import com.ironyard.services.UserRepository;
@@ -24,11 +25,30 @@ public class IronGramRestController
     @Autowired
     PhotoRepository photos;
 
+
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public User login(@RequestBody User user, HttpSession session) throws Exception{
+    public User login(@RequestBody User user, HttpSession session) throws Exception
+    {
         User userFromDb = users.findFirstByName(user.getName());
         user.setPassword(PasswordStorage.createHash(user.getPassword()));
         users.save(user);
 
+
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public void logout(HttpSession session) throws Exception
+    {
+        session.invalidate();
+    }
+
+
+    @RequestMapping(path = "/photos", method = RequestMethod.POST)
+    public Iterable<Photo> getPhotos(HttpSession session) throws Exception
+    {
+        String username = (String) session.getAttribute("username");
+        User user = users.findFirstByName(username);
+        return photos.findByRecipient(user);
+    }
 
 }

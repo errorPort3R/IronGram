@@ -56,7 +56,7 @@ public class IronGramRestController
     }
 
 
-    @RequestMapping(path = "/photos", method = RequestMethod.POST)
+    @RequestMapping(path = "/photos", method = RequestMethod.GET)
     public Iterable<Photo> getPhotos(HttpSession session) throws Exception
     {
         String username = (String) session.getAttribute("username");

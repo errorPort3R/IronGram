@@ -1,13 +1,13 @@
 package com.ironyard.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by jeffryporter on 6/28/16.
  */
+@Entity
+@Table(name = "photos")
+
 public class Photo
 {
     @Id

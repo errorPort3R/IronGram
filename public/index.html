@@ -18,9 +18,13 @@
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file"/>
         <input type="text" placeholder="Reciever Name" name="receiver"/>
+        <input type="number" placeholder="Seconds to show" name="secs"/>
+        <input type="checkbox" name="is_public"/>
         <button type="submit">Upload</button>
     </form>
-    <div id="photos"></div>
+    <div id="photos">
+
+    </div>
 </div>
 
 <script src="jquery-3.0.0.js"></script>

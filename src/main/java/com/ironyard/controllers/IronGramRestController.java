@@ -16,6 +16,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Created by jeffryporter on 6/28/16.
@@ -61,7 +64,27 @@ public class IronGramRestController
     {
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
+        ArrayList<Photo> workingFiles = new ArrayList<>();
+        workingFiles = (ArrayList<Photo>)photos.findByRecipient(user);
+        for(Photo p : workingFiles)
+        {
+            LocalDateTime timestamp1 = LocalDateTime.now();
+            if (p.getStartTime()==null)
+            {
+                photos.findOne(p.getId()).setStartTime(timestamp1);
+            }
+            else if (LocalDateTime.now().isAfter(p.getStartTime().plusSeconds(p.getLifeInSeconds())))
+            {
+                photos.delete(p.getId());
+            }
+        }
         return photos.findByRecipient(user);
     }
 
+    @RequestMapping(path = "/photos-public", method = RequestMethod.GET)
+    public Iterable<Photo> getPublicPhotos(String username) throws Exception
+    {
+        return photos.findBySenderAndIsPublic(username, true);
+
+    }
 }

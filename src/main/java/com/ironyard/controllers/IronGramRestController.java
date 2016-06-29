@@ -72,7 +72,8 @@ public class IronGramRestController
             LocalDateTime timestamp1 = LocalDateTime.now();
             if (p.getStartTime()==null)
             {
-                photos.findOne(p.getId()).setStartTime(timestamp1);
+                p.setStartTime(LocalDateTime.now());
+                photos.save(p);
             }
             else if (LocalDateTime.now().isAfter(p.getStartTime().plusSeconds(p.getLifeInSeconds())))
             {

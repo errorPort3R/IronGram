@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -75,6 +76,8 @@ public class IronGramRestController
             }
             else if (LocalDateTime.now().isAfter(p.getStartTime().plusSeconds(p.getLifeInSeconds())))
             {
+                File f = new File("public/photos" + p.getFilename());
+                f.delete();
                 photos.delete(p.getId());
             }
         }
@@ -84,7 +87,21 @@ public class IronGramRestController
     @RequestMapping(path = "/photos-public", method = RequestMethod.GET)
     public Iterable<Photo> getPublicPhotos(String username) throws Exception
     {
-        return photos.findBySenderAndIsPublic(username, true);
+        User user = users.findFirstByName(username);
+        return photos.findBySenderAndIsPublic(user, true);
+    }
 
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public User getUser(HttpSession session)
+    {
+        String username = (String) session.getAttribute("username");
+        if (username == null)
+        {
+            return null;
+        }
+        else
+        {
+            return users.findFirstByName(username);
+        }
     }
 }

@@ -5,6 +5,7 @@ function getPhotos()
         "url": "/photos",
         "success": function(data)
         {
+            $("#photos").empty();
             for (var i in data)
             {
                 var elem = $("<img>");
@@ -37,5 +38,35 @@ function login() {
     });
 }
 
-$("#loggedIn").hide();
+function logout() {
+    $.ajax({
+        "type": "POST",
+        "url": "/logout",
+        "success": function()
+            {
+                $("#notLoggedIn").show();
+                $("#loggedIn").hide();
+            }
+
+    });
+
+}
+
+$.ajax({
+    "type": "GET",
+    "url": "/user",
+    "success": function(data)
+    {
+        if (data)
+        {
+            $("#notLoggedIn").hide();
+            getPhotos();
+        }
+        else
+        {
+            $("#LoggedIn").hide();
+        }
+    }
+});
+
 setInterval(getPhotos,1000);

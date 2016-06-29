@@ -19,14 +19,16 @@
         <input type="file" name="file"/>
         <input type="text" placeholder="Reciever Name" name="receiver"/>
         <input type="number" placeholder="Seconds to show" name="secs"/>
-        <input type="checkbox" name="is_public"/>
+        <input type="checkbox" name="is_public"/>Public
         <button type="submit">Upload</button>
     </form>
-    <div id="photos">
-
-    </div>
+    <div id="photos"></div>
 </div>
-
+<form action="/photos-public" method="get">
+Get public file data by user
+<input type="text" placeholder="Name" name="username"/>
+<button type="submit">Upload</button>
+</form>
 <script src="jquery-3.0.0.js"></script>
 <script src="main.js"></script>
 </body>
